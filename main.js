@@ -50,8 +50,9 @@ function createCard(companyRewardObject) {
   let pDiscountOffered = document.createElement('p');
   pOfferingCompany.setAttribute('class', 'offering-company');
   pDiscountOffered.setAttribute('class', 'discount-offered');
-  pOfferingCompany.innerHTML = companyRewardObject._providerName; // need to insert break after this
+  pOfferingCompany.innerHTML = companyRewardObject._providerName; 
   pDiscountOffered.innerText = companyRewardObject._discountOffered;
+  pDiscountOffered.insertAdjacentHTML('beforeend', '<br>')
 
   // create redeem button and add event listener
   let redeemButton = document.createElement('input');
@@ -94,14 +95,20 @@ function getSearchQuery() {
   let query = document.querySelector('#search').value
   
   // search our couponsArray
+  let rewardsMatchedQuery = []
   for (const reward in couponsArray) {
     const valuesArray = Object.values(couponsArray[reward])
     if (valuesArray.includes(query)) {
       // if query is in the values array then create a card with the corresponding reward object
-      clearRewardsContainer();
-      createCard(couponsArray[reward]);
+      rewardsMatchedQuery.push(couponsArray[reward]);
     }
-  } 
+  }
+
+  clearRewardsContainer();
+
+  for (const reward in rewardsMatchedQuery){
+    createCard(rewardsMatchedQuery[reward]);
+  }
   
 }
 
